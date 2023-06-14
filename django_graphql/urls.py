@@ -16,12 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from rest_framework import routers
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
+from graphene_django.views import GraphQLView
+from rest_framework import routers
 
 from public_holiday.views import PublicHolidayList
 
@@ -42,4 +43,5 @@ urlpatterns = [
         SpectacularRedocView.as_view(url_name="schema"),
         name="redoc",
     ),
+    path("graphql", GraphQLView.as_view(graphiql=True)),
 ]

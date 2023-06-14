@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "drf_spectacular",
+    "graphene_django",
 ]
 
 MIDDLEWARE = [
@@ -93,6 +94,8 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
 }
+
+GRAPHENE = {"SCHEMA": "public_holiday.schema.schema"}
 
 
 # Database
