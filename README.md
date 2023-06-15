@@ -86,6 +86,52 @@ make populate-models
 ```
 For each command run a random country is selected and all the public holidays for that country would be fetched and stored in the db
 
+# GraphQL
+To test some graphQL queries against the API just connect with the browser to
+```bash
+http://localhost:8000/graphql
+```
+Possible queries can be: 
+
+- fetching all the Public Holiday models via `allHolidays`
+
+```gql
+query {
+    allHolidays {
+        id
+        name
+        localName
+        country
+        date
+    }
+}
+```
+
+- fetching all the Public Holiday filtered by country via `holidayByCountry` (in the example models are filtered by Italy country)
+
+```gql
+query {
+    holidayByCountry(country: "IT"){
+        id
+        localName
+        name
+        country
+    }
+}
+```
+- Mutate the localName of a PublicHoliday via `updatePublicHoliday` (in the example the `localName` field of the model with ID 1 is changed to "Pizza")
+
+```gql
+mutation MyMutation {
+    updatePublicHoliday(id: "1", localName: "Pizza") {
+        publicHoliday {
+            id
+            localName
+        }
+    }
+}
+```
+
 ## Testing
 Testing requirements can be installed by
 ```bash
