@@ -111,3 +111,25 @@ class TestGraphQLAPI:
         for model in response_dict["data"]["holidayByCountry"]:
             assert int(model["id"]) in batch_ids_us
             assert model["country"] == "US"
+
+    def test_public_holiday_graphql_mutation_success(self):
+        graphql_mutation = """
+            mutation MyMutation {
+                updatePublicHoliday(id: "1", localName: "Pizza") {
+                    publicHoliday {
+                        id
+                        localName
+                    }
+                }
+            }
+        """
+        public_holiday = PublicHolidayFactory(local_name="Hamburger", id=1)
+        client = APIClient()
+        response = client.post("/graphql", {"query": graphql_mutation}, format="json")
+        assert response.status_code == status.HTTP_200_OK
+        response_dict = response.json()
+        response_model = response_dict["data"]["updatePublicHoliday"]["publicHoliday"]
+        assert response_model["id"] == "1"
+        assert response_model["localName"] == "Pizza"
+        public_holiday.refresh_from_db()
+        assert public_holiday.local_name == "Pizza"
